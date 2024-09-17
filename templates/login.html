@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/login.css">
+</head>
+<body>
+<div id="form_fundo">
+    <h1>LOGIN</h1>
+    <div id="form_frente">
+    <form action="/logado" id="logado" method="post">
+        <label for="NOME">NOME</label>
+        <input type="text" name="nome" id="nome" required placeholder="Digite seu nome"><br><br>
+        <label for="senha"  id ="senha">SENHA</label>
+        <input type="password" name="Senha" id="senha" required placeholder="Digite a sua senha"> <br><br>
+        <button type="submit" id="button_login">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>ENTRAR
+        </button>
+    </form>
+    </div>
+</div>    
+    
+</body>
+</html>

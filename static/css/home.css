@@ -1,0 +1,64 @@
+@charset "UTF -8";
+body{
+    background-color: rgb(11, 81, 177);
+    background: url(../img/1695414299567.jpg) no-repeat; 
+    background-size: cover;
+    background-attachment: fixed;
+    display: block;
+}
+button{
+    font-size: 50px;
+    font-weight: bold;
+    border-radius: 20px;
+    background-color: white;
+    color: rgb(0, 0, 0);
+}
+h1{
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 20px;
+    padding: 20px;
+}
+h2{
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 10px;
+    padding: 15px;
+}
+h3{
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+}
+div#home_b1{
+    background-color: blanchedalmond;
+    box-shadow: 2px 5px 5px black;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+button#buttonlogin{
+    font-size: 35px;
+    font-weight: bold;
+    border-radius: 20px;
+    background-color: white;
+    color: black;
+
+}
+button#buttoncadastrar{
+    font-size: 35px;
+    font-weight: bold;
+    border-radius: 20px;
+    background-color: white;
+    color: black;
+
+}
+div#home_b2{
+    justify-content: center;
+    margin: auto;
+    padding: 10px 20px;
+    align-items: center;
+    text-align: center;
+}
