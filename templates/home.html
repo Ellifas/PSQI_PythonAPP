@@ -1,26 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="../static/css/home.css">
+    <title>Home - PSQI</title>
+    <link rel="stylesheet" href="../static/css/home.css"> <!-- Conectando o CSS externo -->
 </head>
-<body>
-    <div id="home_b1">
-        <h1>Seja bem vindo a nosso site!</h1>
-        <h2>O que você precisa saber antes de entrar:</h2>
-        <h3>O PSQI (Pittsburgh Sleep Quality Index) é um questionário amplamente utilizado para avaliar a qualidade do sono. Desenvolvido para medir diferentes aspectos do sono ao longo do último mês, ele abrange fatores como a duração do sono, a frequência de distúrbios e a percepção geral do descanso. Composto por 19 perguntas simples, o PSQI gera uma pontuação que ajuda a identificar padrões de sono não saudáveis e pode ser utilizado em ambientes clínicos ou por qualquer pessoa interessada em melhorar sua qualidade de vida através de uma melhor compreensão de seus hábitos de sono.</h3>
-        <div id="home_b2">
-            <form action="login" id="login" method="post"></form>
-            <label for="LOGAR"></label>
-            <button type="submit" id="buttonlogin">ENTRAR</button>
-            <button type="submit" id="buttoncadastrar" >CADASTRAR</button>
-
+<body class="home-page"> <!-- Adicionando a classe home-page -->
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="/informacoes">Sobre o PSQI</a></li>
+            <li><a href="#">Contato</a></li>
+            <li><a href="/teste">Faça aqui seu teste!</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <a href="/login">Login</a>
+            <a href="/cadastrar">Cadastro</a>
         </div>
-        
     </div>
 
-    
+    <div class="content">
+        <h1>Bem-vindo ao PSQI</h1>
+        <p>O Índice de Qualidade de Sono de Pittsburgh (PSQI) é um instrumento amplamente utilizado para medir a qualidade do sono. Ele foi desenvolvido para fornecer uma avaliação padronizada e confiável do sono em adultos ao longo de um período de um mês.</p>
+
+        <h2>Componentes do PSQI</h2>
+        <p>O PSQI avalia sete componentes específicos relacionados ao sono:</p>
+        <ul>
+            <li>1. Qualidade subjetiva do sono</li>
+            <li>2. Latência do sono (tempo para adormecer)</li>
+            <li>3. Duração do sono</li>
+            <li>4. Eficiência habitual do sono</li>
+            <li>5. Distúrbios do sono</li>
+            <li>6. Uso de medicamentos para dormir</li>
+            <li>7. Disfunção diurna (impacto do sono no desempenho diário)</li>
+        </ul>
+
+        <h2>Por que o PSQI é importante?</h2>
+        <p>O PSQI é utilizado em ambientes clínicos e de pesquisa para identificar distúrbios do sono e monitorar intervenções em indivíduos com problemas de sono. Ele fornece uma visão abrangente da qualidade do sono e pode ser uma ferramenta útil para profissionais de saúde.</p>
+    </div>
 </body>
 </html>

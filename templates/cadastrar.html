@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Cadastro</title>
+    <link rel="stylesheet" href="../static/css/cadastro.css"> <!-- Conectando o CSS externo -->
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastrar-se</h2>
+        <form action="/cadastro" method="POST">
+            <input type="text" name="name" placeholder="Nome Completo" required>
+            <input type="email" name="email" placeholder="E-mail" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <input type="password" name="confirm_password" placeholder="Confirme a Senha" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <div class="link">
+            <p>Já tem uma conta? <a href="/login">Entrar</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,64 +1,104 @@
-@charset "UTF -8";
-body{
-    background-color: rgb(11, 81, 177);
-    background: url(../img/1695414299567.jpg) no-repeat; 
-    background-size: cover;
-    background-attachment: fixed;
-    display: block;
+/* Estilos para a página Home */
+.home-page {
+    display: flex;
+    height: 100vh;
+    background-color: #f0f2f5; /* Cor de fundo mais suave */
+    font-family: 'Arial', sans-serif;
 }
-button{
-    font-size: 50px;
-    font-weight: bold;
-    border-radius: 20px;
-    background-color: white;
-    color: rgb(0, 0, 0);
-}
-h1{
-    font-size: 50px;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 20px;
+
+.sidebar {
+    background-color: #343a40;
+    color: white;
+    width: 280px; /* Aumentando a largura da sidebar */
+    height: 100%;
     padding: 20px;
-}
-h2{
-    font-size: 28px;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 10px;
-    padding: 15px;
-}
-h3{
-    font-size: 17px;
-    font-weight: bold;
-    text-align: center;
-}
-div#home_b1{
-    background-color: blanchedalmond;
-    box-shadow: 2px 5px 5px black;
-    padding: 30px;
-    border-radius: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    border-right: 2px solid #444; /* Borda direita para separar a sidebar */
 }
 
-button#buttonlogin{
-    font-size: 35px;
-    font-weight: bold;
-    border-radius: 20px;
-    background-color: white;
-    color: black;
-
-}
-button#buttoncadastrar{
-    font-size: 35px;
-    font-weight: bold;
-    border-radius: 20px;
-    background-color: white;
-    color: black;
-
-}
-div#home_b2{
-    justify-content: center;
-    margin: auto;
-    padding: 10px 20px;
-    align-items: center;
+.sidebar h2 {
     text-align: center;
+    color: #f8f9fa;
+    margin-bottom: 30px;
+    font-size: 24px; /* Aumentando o tamanho da fonte */
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    color: #f8f9fa;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+    padding: 12px;
+    background-color: #007bff; /* Cor de fundo dos itens de menu */
+    border-radius: 8px; /* Bordas arredondadas */
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Adicionando transições suaves */
+}
+
+.sidebar ul li a:hover {
+    background-color: #0056b3; /* Cor ao passar o mouse */
+    transform: scale(1.05); /* Efeito de zoom suave */
+}
+
+.auth-buttons {
+    margin-top: auto; /* Move os botões para o final da sidebar */
+}
+
+.auth-buttons a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.auth-buttons a:hover {
+    background-color: #218838;
+}
+
+.content {
+    flex: 1;
+    padding: 40px;
+    background-color: #ffffff; /* Cor de fundo branca para o conteúdo */
+    box-sizing: border-box;
+    border-radius: 8px; /* Bordas arredondadas no conteúdo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin: 20px; /* Margem para separar o conteúdo da borda da tela */
+}
+
+.content h1 {
+    font-size: 32px; /* Aumentando o tamanho da fonte do título */
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.content p {
+    font-size: 18px; /* Aumentando o tamanho da fonte do texto */
+    line-height: 1.8; /* Aumentando a altura da linha para melhor legibilidade */
+    margin-bottom: 20px;
+}
+
+.content ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.content ul li {
+    margin-bottom: 15px; /* Aumentando o espaçamento entre itens */
+    font-size: 18px; /* Aumentando o tamanho da fonte dos itens */
 }

@@ -1,29 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="/static/css/login.css">
+    <title>Tela de Login</title>
+    <link rel="stylesheet" href="../static/css/login.css"> <!-- Conectando o CSS externo -->
 </head>
 <body>
-<div id="form_fundo">
-    <h1>LOGIN</h1>
-    <div id="form_frente">
-    <form action="/logado" id="logado" method="post">
-        <label for="NOME">NOME</label>
-        <input type="text" name="nome" id="nome" required placeholder="Digite seu nome"><br><br>
-        <label for="senha"  id ="senha">SENHA</label>
-        <input type="password" name="Senha" id="senha" required placeholder="Digite a sua senha"> <br><br>
-        <button type="submit" id="button_login">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>ENTRAR
-        </button>
-    </form>
+    <div class="container">
+        <h2>Entrar</h2>
+        <form action="/login" method="POST">
+            <input type="email" name="email" placeholder="E-mail" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <div class="link">
+            <p>Não tem uma conta? <a href="/cadastrar">Cadastrar-se</a></p>
+        </div>
     </div>
-</div>    
-    
 </body>
 </html>

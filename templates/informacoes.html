@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do PSQI</title>
+    <link rel="stylesheet" href="../static/css/info.css"> <!-- Conectando o CSS externo -->
+</head>
+<body class="psqi-page">
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/informacoes">Sobre o PSQI</a></li>
+            <li><a href="#">Contato</a></li>
+            <li><a href="/teste">Faça aqui seu teste!</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <a href="/login">Login</a>
+            <a href="/cadastrar">Cadastro</a>
+        </div>
+    </div>
+
+    <div class="content">
+        <header>
+            <h1>Índice de Qualidade de Sono de Pittsburgh (PSQI)</h1>
+        </header>
+        <main>
+            <section class="intro">
+                <h2>Sobre o PSQI</h2>
+                <p>O PSQI contém 19 perguntas autoavaliadas e 5 perguntas avaliadas pelo parceiro de cama ou colega de quarto (se houver). Apenas perguntas autoavaliadas são incluídas na pontuação. As sete pontuações dos componentes são então somadas para produzir uma pontuação “global”, com uma faixa de 0 a 21 pontos, onde “0” indica nenhuma dificuldade e “21” indica dificuldades graves em todas as áreas.</p>
+            </section>
+
+            <section class="components">
+                <h2>Componentes do PSQI e Pontuação</h2>
+                <div class="component">
+                    <h3>1. Qualidade Subjetiva do Sono</h3>
+                    <p>Examine a questão 6 e atribua a pontuação: 0-6</p>
+                </div>
+                <div class="component">
+                    <h3>2. Latência do Sono</h3>
+                    <p>Examine a questão 2 e atribua a pontuação da seguinte maneira:</p>
+                    <ul>
+                        <li>≤ 15 minutos = 0 pontos;</li>
+                        <li>16 a 30 minutos = 1 ponto;</li>
+                        <li>31 a 60 minutos = 2 pontos;</li>
+                        <li>> 60 minutos = 3 pontos;</li>
+                    </ul>
+                    <p>Examine a questão 5a e atribua a pontuação da seguinte maneira:</p>
+                    <ul>
+                        <li>Nenhuma vez = 0 ponto;</li>
+                        <li>Menos de 1 vez/semana = 1 ponto;</li>
+                        <li>1 a 2 vezes/semana = 2 pontos;</li>
+                        <li>2 a 3 vezes/semana = 3 pontos;</li>
+                    </ul>
+                    <p>Atribua a pontuação do componente 2 da seguinte maneira:</p>
+                    <ul>
+                        <li>0 = 0 ponto;</li>
+                        <li>1 a 2 = 1 ponto;</li>
+                        <li>3 a 4 = 2 pontos;</li>
+                        <li>5 a 6 = 3 pontos;</li>
+                    </ul>
+                </div>
+                <div class="component">
+                    <h3>3. Duração do Sono</h3>
+                    <p>Examine a questão 4 e atribua a pontuação da seguinte maneira:</p>
+                    <ul>
+                        <li>> 7 horas = 0 ponto;</li>
+                        <li>6 a 7 horas = 1 ponto;</li>
+                        <li>5 a 6 horas = 2 pontos;</li>
+                        <li>< 5 horas = 3 pontos;</li>
+                    </ul>
+                </div>
+                <div class="component">
+                    <h3>4. Eficiência Habitual do Sono</h3>
+                    <p>Examine a questão 2 e atribua a pontuação da seguinte maneira:</p>
+                    <ul>
+                        <li>Escreva o número de horas dormidas (questão 4);</li>
+                        <li>Calcule o número de horas no leito: {horário de levantar (questão 3) – horário de deitar (questão 1)};</li>
+                        <li>Calcule a eficiência do sono: {n° de horas dormidas/n° de horas no leito} x 100 = eficiência do sono (%);</li>
+                    </ul>
+                    <p>Atribua a pontuação do componente 4 (eficiência do sono %) da seguinte maneira:</p>
+                    <ul>
+                        <li>> 85% = 0 ponto;</li>
+                        <li>75 a 84% = 1 ponto;</li>
+                        <li>65 a 74% = 2 pontos;</li>
+                        <li>< 65% = 3 pontos;</li>
+                    </ul>
+                </div>
+                <div class="component">
+                    <h3>5. Distúrbios do Sono</h3>
+                    <p>Examine as questões de 5b a 5j e atribua a pontuação:</p>
+                    <ul>
+                        <li>Nenhuma vez = 0 ponto;</li>
+                        <li>Menos de 1 vez/sem = 1 ponto;</li>
+                        <li>1 a 2 vezes/semana = 2 pontos;</li>
+                        <li>3 vezes/sem ou mais = 3 pontos;</li>
+                    </ul>
+                    <p>Some a pontuação de 5b a 5j e atribua a pontuação do componente 5 da seguinte forma:</p>
+                    <ul>
+                        <li>0 = 0 ponto;</li>
+                        <li>1 a 9 = 1 ponto;</li>
+                        <li>10 a 18 = 2 pontos;</li>
+                        <li>19 a 27 = 3 pontos;</li>
+                    </ul>
+                </div>
+                <div class="component">
+                    <h3>6. Uso de Remédio para Dormir</h3>
+                    <p>Examine a questão 7 e atribua a pontuação: 0-7</p>
+                </div>
+                <div class="component">
+                    <h3>7. Disfunção Diurna</h3>
+                    <p>Some a pontuação das questões 8 e 9 e atribua a pontuação do componente 7 da seguinte maneira:</p>
+                    <ul>
+                        <li>0 = 0 ponto;</li>
+                        <li>1 a 2 = 1 ponto;</li>
+                        <li>3 a 4 = 2 pontos;</li>
+                        <li>5 a 6 = 3 pontos;</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="scoring">
+                <h2>Pontuação Global</h2>
+                <p>Os escores dos sete componentes são somados para conferir uma pontuação global do PSQI, a qual varia de 0 a 21.</p>
+                <p><strong>> 5 pontos</strong> = sono insatisfatório (baixa qualidade do sono).</p>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
