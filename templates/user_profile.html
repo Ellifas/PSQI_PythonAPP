@@ -4,28 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil do Usuário</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}"> <!-- Conectando o CSS externo -->
+    <link rel="stylesheet" href="../static/css/profile.css"> <!-- Conectando o CSS externo -->
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Menu</h2>
-        
-        <div class="user-info">
-            <p>Logado como: {{ username }}</p>
-            <a href="/logout" class="btn">Sair</a>
-        </div>
-
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="#">Sobre o PSQI</a></li>
-            <li><a href="#">Contato</a></li>
-        </ul>
-    </div>
-
-    <div class="content">
+    <div class="container">
         <h1>Perfil do Usuário</h1>
-        <p>Bem-vindo ao seu perfil, {{ username }}!</p>
-        <p>Aqui você pode visualizar e gerenciar suas informações.</p>
+        <p><strong>Nome:</strong> {{ user_profile['name'] }}</p>
+        <p><strong>Email:</strong> {{ user_profile['email'] }}</p>
+
+        <h2>Dados do PSQI</h2>
+        <p><strong>Nome:</strong> {{ user_profile['form_data']['nome'] }}</p>
+        <p><strong>ID:</strong> {{ user_profile['form_data']['id'] }}</p>
+        <p><strong>Data de Nascimento:</strong> {{ user_profile['form_data']['data_nascimento'] }}</p>
+        <p><strong>Hora de Deitar:</strong> {{ user_profile['form_data']['hora_deitar'] }}</p>
+        <p><strong>Tempo para Dormir:</strong> {{ user_profile['form_data']['tempo_para_dormir'] }}</p>
+        <p><strong>Hora de Levantar:</strong> {{ user_profile['form_data']['hora_levantar'] }}</p>
+        <p><strong>Horas de Sono:</strong> {{ user_profile['form_data']['horas_de_sono'] }}</p>
+
+        <!-- Exibindo as respostas das questões PSQI com descrições -->
+        <h3>Questões PSQI:</h3>
+        <p><strong>Questão 5a:</strong> {{ user_profile['form_data']['questao5a'] }}</p>
+        <p><strong>Questão 5b:</strong> {{ user_profile['form_data']['questao5b'] }}</p>
+        <!-- Continue com outras questões -->
+
+        <p><strong>Pontuação Total do PSQI:</strong> {{ psqi_score }}</p>
+
+        <h3>Explicação da Pontuação:</h3>
+        <p>{{ explanation }}</p>
+
+        <a href="{{ url_for('home') }}">Voltar para a página inicial</a>
     </div>
 </body>
 </html>

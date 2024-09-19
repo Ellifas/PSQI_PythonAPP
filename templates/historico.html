@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico do PSQI</title>
+    <link rel="stylesheet" href="../static/css/historico.css"> <!-- Conectando o CSS externo -->
+</head>
+<body>
+    <h1>Histórico do PSQI</h1>
+
+    <h2>Dados do PSQI</h2>
+    <p><strong>Nome:</strong> {{ form_data['nome'] }}</p>
+    <p><strong>ID:</strong> {{ form_data['id'] }}</p>
+    <p><strong>Data de Nascimento:</strong> {{ form_data['data_nascimento'] }}</p>
+    <p><strong>Hora de Deitar:</strong> {{ form_data['hora_deitar'] }}</p>
+    <p><strong>Tempo para Dormir:</strong> {{ form_data['tempo_para_dormir'] }}</p>
+    <p><strong>Hora de Levantar:</strong> {{ form_data['hora_levantar'] }}</p>
+    <p><strong>Horas de Sono:</strong> {{ form_data['horas_de_sono'] }}</p>
+
+    <!-- Exibindo as respostas das questões PSQI com descrições -->
+    <h3>Questões PSQI:</h3>
+    <p><strong>Questão 5a:</strong> {{ form_data['questao5a'] }}</p>
+    <p><strong>Questão 5b:</strong> {{ form_data['questao5b'] }}</p>
+    <!-- Continue com outras questões -->
+
+    <h2>Pontuações</h2>
+    <p><strong>Pontuação Total do PSQI:</strong> {{ psqi_score }}</p>
+    <p><strong>Histórico de Pontuações:</strong></p>
+    <ul>
+        {% for score in psqi_scores %}
+            <li>{{ score }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('home') }}">Voltar para a página inicial</a>
+</body>
+</html>

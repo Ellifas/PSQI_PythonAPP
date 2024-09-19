@@ -1,9 +1,8 @@
-/* Estilos para a página Home */
-.home-page {
+/* Estilos para a página de formulário PSQI */
+.psqi-form-page {
     display: flex;
     height: 100vh;
-    background-color: #f0f2f5; /* Cor de fundo mais suave */
-    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
 }
 
 .sidebar {
@@ -24,7 +23,6 @@
     margin-bottom: 30px;
     font-size: 24px; /* Aumentando o tamanho da fonte */
 }
-
 .sidebar ul {
     list-style-type: none;
     padding: 0;
@@ -68,53 +66,83 @@
 }
 
 .auth-buttons a:hover {
-    background-color: #218838;
+    background-color: #0056b3;
 }
 
 .content {
     flex: 1;
     padding: 40px;
-    background-color: #ffffff; /* Cor de fundo branca para o conteúdo */
+    background-color: #fff;
     box-sizing: border-box;
-    border-radius: 8px; /* Bordas arredondadas no conteúdo */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    margin: 20px; /* Margem para separar o conteúdo da borda da tela */
 }
 
-.content h1 {
-    font-size: 32px; /* Aumentando o tamanho da fonte do título */
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.content p {
-    font-size: 18px; /* Aumentando o tamanho da fonte do texto */
-    line-height: 1.8; /* Aumentando a altura da linha para melhor legibilidade */
-    margin-bottom: 20px;
-}
-
-.content ul {
-    list-style-type: disc;
-    margin-left: 20px;
-}
-
-.content ul li {
-    margin-bottom: 15px; /* Aumentando o espaçamento entre itens */
-    font-size: 18px; /* Aumentando o tamanho da fonte dos itens */
-}
-
-.logout-button {
-    background-color: #dc3545; /* Cor de fundo para o botão de logout */
-    color: white;
-    padding: 10px;
-    border-radius: 4px;
-    text-decoration: none;
+header {
     text-align: center;
-    display: block;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease;
+    margin-bottom: 40px;
 }
 
-.logout-button:hover {
-    background-color: #c82333; /* Cor ao passar o mouse */
+header h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+main {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+}
+
+legend {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+    padding: 0 10px;
+}
+
+label {
+    font-size: 16px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #218838;
 }
