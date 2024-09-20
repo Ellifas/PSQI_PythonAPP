@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session # type: ignore
 import json
 import os
 
@@ -76,6 +76,11 @@ def logout():
 @app.route('/formulario', methods=['GET', 'POST'])
 def formulario():
     username = session.get('username')
+    
+    # Verifica se o usuário está logado
+    if not username:
+        return redirect(url_for('login'))  # Redireciona para a página de login se não estiver logado
+
     if request.method == 'POST':
         try:
             # Coleta de dados do formulário
@@ -104,57 +109,13 @@ def formulario():
                 'questao10': int(request.form.get('parceiro', 0))
             }
             
-            # Calcular a pontuação do PSQI
-            score_questao2 = int(request.form.get('questao2', 0))
-            score_questao5a = int(request.form.get('questao5a', 0))
-            
-            # Pontuação para Latência do Sono
-            if score_questao2 <= 15:
-                latency_score = 0
-            elif 16 <= score_questao2 <= 30:
-                latency_score = 1
-            elif 31 <= score_questao2 <= 60:
-                latency_score = 2
-            else:
-                latency_score = 3
-            
-            # Pontuação para Distúrbios do Sono
-            disturbances_score = score_questao5a
-            if disturbances_score <= 0:
-                disturbances_component_score = 0
-            elif 1 <= disturbances_score <= 9:
-                disturbances_component_score = 1
-            elif 10 <= disturbances_score <= 18:
-                disturbances_component_score = 2
-            else:
-                disturbances_component_score = 3
-            
-            # Pontuação do Componente 2
-            if latency_score <= 1:
-                component2_score = 0
-            elif 1 <= latency_score <= 2:
-                component2_score = 1
-            elif 3 <= latency_score <= 4:
-                component2_score = 2
-            else:
-                component2_score = 3
+            # Cálculo da pontuação do PSQI
+            latency_score = calcular_latencia(int(request.form.get('questao2', 0)))
+            disturbances_component_score = calcular_disturbios(participant_data['questao5a'])
+            efficiency_score = calcular_eficiencia(participant_data['horas_de_sono'], 
+                                                     request.form.get('hora_deitar', 0), 
+                                                     request.form.get('hora_levantar', 0))
 
-            # Pontuação do Componente 4
-            sleep_hours = float(participant_data['horas_de_sono'])
-            total_hours_in_bed = (
-                int(request.form.get('hora_levantar', 0)) - int(request.form.get('hora_deitar', 0))
-            )
-            sleep_efficiency = (sleep_hours / total_hours_in_bed) * 100 if total_hours_in_bed > 0 else 0
-            if sleep_efficiency > 85:
-                efficiency_score = 0
-            elif 75 <= sleep_efficiency <= 84:
-                efficiency_score = 1
-            elif 65 <= sleep_efficiency <= 74:
-                efficiency_score = 2
-            else:
-                efficiency_score = 3
-
-            # Pontuação Total do PSQI
             total_score = (
                 participant_data['questao6'] +
                 participant_data['questao7'] +
@@ -172,12 +133,47 @@ def formulario():
                 user_profile['form_data'].append(participant_data)
                 user_profile['psqi_scores'].append(total_score)
                 save_json(PROFILE_FILE, profile_data)
-            
+
             return redirect(url_for('home'))
         except Exception as e:
-            # Log the error or handle it as needed
             print(f"Erro ao processar o formulário: {e}")
             return "Ocorreu um erro ao processar o formulário.", 500
+
+def calcular_latencia(score):
+    if score <= 15:
+        return 0
+    elif 16 <= score <= 30:
+        return 1
+    elif 31 <= score <= 60:
+        return 2
+    else:
+        return 3
+
+def calcular_disturbios(score):
+    if score <= 0:
+        return 0
+    elif 1 <= score <= 9:
+        return 1
+    elif 10 <= score <= 18:
+        return 2
+    else:
+        return 3
+
+def calcular_eficiencia(horas_de_sono, hora_deitar, hora_levantar):
+    sleep_hours = float(horas_de_sono)
+    total_hours_in_bed = (
+        int(hora_levantar) - int(hora_deitar)
+    )
+    sleep_efficiency = (sleep_hours / total_hours_in_bed) * 100 if total_hours_in_bed > 0 else 0
+    
+    if sleep_efficiency > 85:
+        return 0
+    elif 75 <= sleep_efficiency <= 84:
+        return 1
+    elif 65 <= sleep_efficiency <= 74:
+        return 2
+    else:
+        return 3
 
     return render_template('formulario.html')
 
