@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Sono</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Gráfico Histórico de Pontuação do Sono</h1>
+    <div id="grafico" style="width: 100%; height: 600px;"></div>
+
+    <script>
+        var data = [{
+            x: {{ datas|tojson }},
+            y: {{ pontuacoes|tojson }},
+            mode: 'lines+markers',
+            type: 'scatter'
+        }];
+
+        var layout = {
+            title: 'Histórico de Pontuação do Sono',
+            xaxis: {
+                title: 'Data'
+            },
+            yaxis: {
+                title: 'Pontuação Total'
+            }
+        };
+
+        Plotly.newPlot('grafico', data, layout);
+    </script>
+</body>
+</html>

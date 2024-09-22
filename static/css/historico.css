@@ -1,98 +1,72 @@
-/* Estilos para a página de histórico PSQI */
-.historico-page {
-    display: flex;
-    height: 100vh;
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
     background-color: #f4f4f4;
 }
 
-.sidebar {
-    background-color: #343a40;
-    color: white;
-    width: 280px; /* Aumentando a largura da sidebar */
-    height: 100%;
-    padding: 20px;
-    box-sizing: border-box;
+.container {
     display: flex;
-    flex-direction: column;
-    border-right: 2px solid #444; /* Borda direita para separar a sidebar */
+}
+
+.sidebar {
+    width: 180px; /* Largura reduzida */
+    background: #2c3e50; /* Cor da sidebar */
+    color: #ecf0f1; /* Cor do texto */
+    padding: 20px;
 }
 
 .sidebar h2 {
     text-align: center;
-    color: #f8f9fa;
-    margin-bottom: 30px;
-    font-size: 24px; /* Aumentando o tamanho da fonte */
 }
 
 .sidebar ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
 }
 
 .sidebar ul li {
-    margin-bottom: 15px;
+    margin: 10px 0;
 }
 
-.sidebar ul li a {
-    color: #f8f9fa;
+.sidebar a {
+    color: #ecf0f1; /* Cor do link */
     text-decoration: none;
-    font-size: 16px;
+}
+
+.sidebar a:hover {
+    color: #3498db; /* Cor do hover */
+}
+
+.sidebar .auth-buttons {
+    margin-top: 20px;
+}
+
+.sidebar .logout {
     display: block;
-    padding: 12px;
-    background-color: #007bff; /* Cor de fundo dos itens de menu */
-    border-radius: 8px; /* Bordas arredondadas */
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Adicionando transições suaves */
-}
-
-.sidebar ul li a:hover {
-    background-color: #0056b3; /* Cor ao passar o mouse */
-    transform: scale(1.05); /* Efeito de zoom suave */
-}
-
-.auth-buttons {
-    margin-top: auto; /* Move os botões para o final da sidebar */
-}
-
-.auth-buttons a {
-    display: block;
-    text-align: center;
+    background: #e74c3c; /* Cor do botão de logout */
     padding: 10px;
-    background-color: #28a745;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease;
+    text-align: center;
 }
 
-.auth-buttons a:hover {
-    background-color: #0056b3;
-}
-
-.content {
-    flex: 1;
-    padding: 40px;
-    background-color: #fff;
-    box-sizing: border-box;
-    overflow: auto; /* Adiciona rolagem se necessário */
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
 }
 
 header {
+    background: #3498db; /* Cor do cabeçalho */
+    color: white;
+    padding: 10px;
     text-align: center;
-    margin-bottom: 40px;
 }
 
-header h1 {
-    font-size: 36px;
+h1 {
     color: #333;
 }
 
-main {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+h2 {
+    color: #555;
 }
 
 table {
@@ -101,42 +75,38 @@ table {
     margin-top: 20px;
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
-
 th, td {
-    padding: 12px;
+    border: 1px solid #ddd;
+    padding: 8px;
     text-align: left;
 }
 
 th {
-    background-color: #007bff;
-    color: #fff;
-    font-size: 18px;
+    background-color: #f2f2f2;
 }
 
-tr:nth-child(even) {
-    background-color: #f9f9f9;
+a {
+    color: #3498db; /* Cor do link */
+    text-decoration: none;
 }
 
-tr:hover {
-    background-color: #f1f1f1;
+a:hover {
+    text-decoration: underline; /* Estilo do hover do link */
 }
 
+/* Responsividade */
 @media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
     .sidebar {
-        width: 100%;
+        width: 100%; /* Sidebar ocupa 100% da largura em telas menores */
         height: auto;
-        border-right: none;
-        border-bottom: 2px solid #444;
+        position: relative;
     }
-    
-    .content {
-        padding: 20px;
-    }
-    
-    table {
-        font-size: 14px;
+
+    .main-content {
+        padding: 10px;
     }
 }

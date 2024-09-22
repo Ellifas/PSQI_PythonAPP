@@ -1,120 +1,165 @@
-/* Estilos para a página Home */
-.home-page {
-    display: flex;
-    height: 100vh;
-    background-color: #f0f2f5; /* Cor de fundo mais suave */
-    font-family: 'Arial', sans-serif;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    padding: 50px;
 }
 
-.sidebar {
-    background-color: #343a40;
-    color: white;
-    width: 280px; /* Aumentando a largura da sidebar */
-    height: 100%;
-    padding: 20px;
-    box-sizing: border-box;
+h1 {
+    color: #333;
+}
+
+.nav-buttons {
+    margin-top: 30px;
+}/* Definindo um layout confortável e moderno */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    border-right: 2px solid #444; /* Borda direita para separar a sidebar */
+    min-height: 100vh;
 }
 
-.sidebar h2 {
-    text-align: center;
-    color: #f8f9fa;
-    margin-bottom: 30px;
-    font-size: 24px; /* Aumentando o tamanho da fonte */
+header {
+    background-color: #007bff;
+    padding: 15px 0;
 }
 
-.sidebar ul {
-    list-style-type: none;
+header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
     padding: 0;
 }
 
-.sidebar ul li {
-    margin-bottom: 15px;
+header nav ul li {
+    display: inline;
 }
 
-.sidebar ul li a {
-    color: #f8f9fa;
-    text-decoration: none;
-    font-size: 16px;
-    display: block;
-    padding: 12px;
-    background-color: #007bff; /* Cor de fundo dos itens de menu */
-    border-radius: 8px; /* Bordas arredondadas */
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Adicionando transições suaves */
-}
-
-.sidebar ul li a:hover {
-    background-color: #0056b3; /* Cor ao passar o mouse */
-    transform: scale(1.05); /* Efeito de zoom suave */
-}
-
-.auth-buttons {
-    margin-top: auto; /* Move os botões para o final da sidebar */
-}
-
-.auth-buttons a {
-    display: block;
-    text-align: center;
-    padding: 10px;
-    background-color: #28a745;
+header nav ul li a {
     color: white;
     text-decoration: none;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s;
 }
 
-.auth-buttons a:hover {
-    background-color: #218838;
+header nav ul li a:hover {
+    color: #cce7ff;
 }
 
-.content {
+main {
     flex: 1;
-    padding: 40px;
-    background-color: #ffffff; /* Cor de fundo branca para o conteúdo */
-    box-sizing: border-box;
-    border-radius: 8px; /* Bordas arredondadas no conteúdo */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    margin: 20px; /* Margem para separar o conteúdo da borda da tela */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.content h1 {
-    font-size: 32px; /* Aumentando o tamanho da fonte do título */
+.hero {
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 36px;
     color: #333;
     margin-bottom: 20px;
 }
 
-.content p {
-    font-size: 18px; /* Aumentando o tamanho da fonte do texto */
-    line-height: 1.8; /* Aumentando a altura da linha para melhor legibilidade */
-    margin-bottom: 20px;
+.hero p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 40px;
 }
 
-.content ul {
-    list-style-type: disc;
-    margin-left: 20px;
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
 }
 
-.content ul li {
-    margin-bottom: 15px; /* Aumentando o espaçamento entre itens */
-    font-size: 18px; /* Aumentando o tamanho da fonte dos itens */
-}
-
-.logout-button {
-    background-color: #dc3545; /* Cor de fundo para o botão de logout */
-    color: white;
-    padding: 10px;
-    border-radius: 4px;
+.primary-button,
+.secondary-button,
+.auth-button {
     text-decoration: none;
-    text-align: center;
-    display: block;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
-.logout-button:hover {
-    background-color: #c82333; /* Cor ao passar o mouse */
+.primary-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.primary-button:hover {
+    background-color: #0056b3;
+}
+
+.secondary-button {
+    background-color: #6c757d;
+    color: white;
+}
+
+.secondary-button:hover {
+    background-color: #5a6268;
+}
+
+.auth-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.auth-button:hover {
+    background-color: #218838;
+}
+
+footer {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+
+.nav-buttons a {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;
+    margin: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.nav-buttons a:hover {
+    background-color: #0056b3;
+}
+
+.auth-buttons {
+    margin-top: 40px;
+}
+
+.auth-buttons a {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    margin: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.auth-buttons a:hover {
+    background-color: #218838;
 }

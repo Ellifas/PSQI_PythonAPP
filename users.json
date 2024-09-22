@@ -10,5 +10,13 @@
     "ronaldinhsilva@gmail.com": {
         "name": "ronaldinho",
         "password": "12345"
+    },
+    "ytasmin@gmail.com": {
+        "name": "yasmin teixeira",
+        "password": "123"
+    },
+    "glau@gmail.com": {
+        "name": "glau",
+        "password": "123"
     }
 }

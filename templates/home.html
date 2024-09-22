@@ -1,50 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - PSQI</title>
-    <link rel="stylesheet" href="../static/css/home.css"> <!-- Conectando o CSS externo -->
+    <title>Home - Sistema de Sono</title>
+    <!-- Vinculando o arquivo CSS externo -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <!-- Fonte do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
-<body class="home-page"> <!-- Adicionando a classe home-page -->
-    <div class="sidebar">
-        <h2>Menu</h2>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="/informacoes">Sobre o PSQI</a></li>
-            <li><a href="/formulario">Faça o formulário!</a></li>
-            <li><a href="#">Contato</a></li>
-            <li><a href="/perfil">Perfil</a></li>
-            <li><a href="/historico">Histórico</a></li>
-        </ul>
-        <div class="auth-buttons">
-            <a href="/login">Login</a>
-            <a href="/cadastrar">Cadastro</a>
-            <a href="/logout" class="logout-button">Logout</a> <!-- Adicionando o botão de logout -->
-        </div>
-    </div>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <a href="{{ url_for('user_profile') }}">Perfil</a>
+                <li><a href="{{ url_for('formulario') }}">Preencher Formulário</a></li>
+                <li><a href="{{ url_for('historico') }}">Histórico</a></li>
+                {% if session.get('username') %}
+                    <li><a href="{{ url_for('logout') }}" class="auth-button">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}" class="auth-button">Login</a></li>
+                    <li><a href="{{ url_for('cadastro') }}" class="auth-button">Cadastro</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
 
-    <div class="content">
-        <h1>Bem-vindo ao PSQI</h1>
-        <p>O Índice de Qualidade de Sono de Pittsburgh (PSQI) é um instrumento amplamente utilizado para medir a qualidade do sono. Ele foi desenvolvido para fornecer uma avaliação padronizada e confiável do sono em adultos ao longo de um período de um mês.</p>
+    <main>
+        <section class="hero">
+            <h1>Bem-vindo ao Sistema de Sono</h1>
+            <p>Monitore seu sono, acompanhe seu histórico e melhore sua qualidade de vida.</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('formulario') }}" class="primary-button">Preencher Formulário</a>
+                <a href="{{ url_for('historico') }}" class="secondary-button">Ver Histórico</a>
+            </div>
+        </section>
+    </main>
 
-        <h2>Componentes do PSQI</h2>
-        <p>O PSQI avalia sete componentes específicos relacionados ao sono:</p>
-        <ul>
-            <li>1. Qualidade subjetiva do sono</li>
-            <li>2. Latência do sono (tempo para adormecer)</li>
-            <li>3. Duração do sono</li>
-            <li>4. Eficiência habitual do sono</li>
-            <li>5. Distúrbios do sono</li>
-            <li>6. Uso de medicamentos para dormir</li>
-            <li>7. Disfunção diurna (impacto do sono no desempenho diário)</li>
-        </ul>
-
-        <h2>Por que o PSQI é importante?</h2>
-        <p>O PSQI é utilizado em ambientes clínicos e de pesquisa para identificar distúrbios do sono e monitorar intervenções em indivíduos com problemas de sono. Ele fornece uma visão abrangente da qualidade do sono e pode ser uma ferramenta útil para profissionais de saúde.</p>
-
-        <!-- Adicionando o botão de logout na área de conteúdo -->
-
-    </div>
+    <footer>
+        <p>&copy; 2024 Sistema de Sono. Todos os direitos reservados.</p>
+    </footer>
 </body>
 </html>

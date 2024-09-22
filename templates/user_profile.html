@@ -4,35 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil do Usuário</title>
-    <link rel="stylesheet" href="../static/css/profile.css"> <!-- Conectando o CSS externo -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1>Perfil do Usuário</h1>
-        <p><strong>Nome:</strong> {{ user_profile['name'] }}</p>
-        <p><strong>Email:</strong> {{ user_profile['email'] }}</p>
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/informacoes">Sobre o PSQI</a></li>
+                <li><a href="/contato">Contato</a></li>
+                <li><a href="/formulario">Teste PSQI</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="/logout" class="button logout">Logout</a>
+            </div>
+        </nav>
 
-        <h2>Dados do PSQI</h2>
-        <p><strong>Nome:</strong> {{ user_profile['form_data']['nome'] }}</p>
-        <p><strong>ID:</strong> {{ user_profile['form_data']['id'] }}</p>
-        <p><strong>Data de Nascimento:</strong> {{ user_profile['form_data']['data_nascimento'] }}</p>
-        <p><strong>Hora de Deitar:</strong> {{ user_profile['form_data']['hora_deitar'] }}</p>
-        <p><strong>Tempo para Dormir:</strong> {{ user_profile['form_data']['tempo_para_dormir'] }}</p>
-        <p><strong>Hora de Levantar:</strong> {{ user_profile['form_data']['hora_levantar'] }}</p>
-        <p><strong>Horas de Sono:</strong> {{ user_profile['form_data']['horas_de_sono'] }}</p>
+        <div class="main-content">
+            <header class="header">
+                <h1>Perfil de {{ user_profile['name'] }}</h1>
+            </header>
 
-        <!-- Exibindo as respostas das questões PSQI com descrições -->
-        <h3>Questões PSQI:</h3>
-        <p><strong>Questão 5a:</strong> {{ user_profile['form_data']['questao5a'] }}</p>
-        <p><strong>Questão 5b:</strong> {{ user_profile['form_data']['questao5b'] }}</p>
-        <!-- Continue com outras questões -->
+            <!-- Informações do Perfil -->
+            <section class="profile-info">
+                <h2>Informações do Usuário</h2>
+                <p><strong>Nome:</strong> {{ user_profile['name'] }}</p>
+                <p><strong>Email:</strong> {{ user_profile['email'] }}</p>
+            </section>
 
-        <p><strong>Pontuação Total do PSQI:</strong> {{ psqi_score }}</p>
+            <!-- Dados PSQI -->
+            <section class="psqi-data">
+                <h2>Dados do PSQI</h2>
+                {% if user_profile['form_data'] %}
+                    <p><strong>Hora de Deitar:</strong> {{ user_profile['form_data'][-1]['hora_deitar'] }}</p>
+                    <p><strong>Hora de Levantar:</strong> {{ user_profile['form_data'][-1]['hora_levantar'] }}</p>
+                    <p><strong>Horas de Sono:</strong> {{ user_profile['form_data'][-1]['horas_de_sono'] }}</p>
+                    <p><strong>Pontuação Total do PSQI:</strong> {{ psqi_score }}</p>
+                {% else %}
+                    <p>Nenhum dado de PSQI disponível.</p>
+                {% endif %}
+            </section>
 
-        <h3>Explicação da Pontuação:</h3>
-        <p>{{ explanation }}</p>
-
-        <a href="{{ url_for('home') }}">Voltar para a página inicial</a>
+            <!-- Pontuação Global e Explicação -->
+            <section class="scoring-explanation">
+                <h3>Pontuação Global</h3>
+                <p><strong>> 5 pontos:</strong> indica sono insatisfatório.</p>
+                <p><strong>Explicação:</strong> {{ explanation }}</p>
+            </section>
+        </div>
     </div>
 </body>
 </html>

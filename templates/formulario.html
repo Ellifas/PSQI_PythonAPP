@@ -1,182 +1,103 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário PSQI</title>
-    <link rel="stylesheet" href="../static/css/formulario.css"> <!-- Conectando o CSS externo -->
+    <title>Formulário de Sono</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/formulario.css') }}">
 </head>
-<body class="psqi-form-page">
-    <div class="sidebar">
-        <h2>Menu</h2>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/informacoes">Sobre o PSQI</a></li>
-            <li><a href="#">Contato</a></li>
-            <li><a href="/formulario">Faça aqui seu teste!</a></li>
-        </ul>
-        <div class="auth-buttons">
-            <a href="/login">Login</a>
-            <a href="/cadastrar">Cadastro</a>
-        </div>
-    </div>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/informacoes">Sobre o PSQI</a></li>
+                <li><a href="/contato">Contato</a></li>
+                <li><a href="/perfil">Perfil</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="/logout" class="button logout">Logout</a>
+            </div>
+        </nav>
 
-    <div class="content">
-        <header>
-            <h1>Formulário de Avaliação PSQI</h1>
-        </header>
-        <main>
-            <form action="#" method="post">
+        <div class="main-content">
+            <header>
+                <h1>Questionário de Qualidade do Sono</h1>
+            </header>
+            <form method="POST">
+                <label for="hora-deitar">1. Hora usual de deitar:</label>
+                <input type="time" id="hora-deitar" name="hora-deitar" required>
 
-                <fieldset>
-                    <legend>Hábitos de Sono</legend>
-                    <p>As seguintes perguntas são relativas aos seus hábitos de sono durante o último mês somente. Suas respostas devem indicar a lembrança mais exata da maioria dos dias e noites do último mês. Por favor, responda a todas as perguntas.</p>
-                    <label for="hora-deitar">1. Durante o último mês, quando você geralmente foi para a cama à noite? Hora usual de deitar:</label>
-                    <input type="time" id="hora-deitar" name="hora-deitar" required>
+                <label for="tempo-para-dormir">2. Número de minutos para dormir:</label>
+                <input type="number" id="tempo-para-dormir" name="tempo-para-dormir" min="0" required>
 
-                    <label for="tempo-para-dormir">2. Durante o último mês, quanto tempo (em minutos) você geralmente levou para dormir à noite? Número de minutos:</label>
-                    <input type="number" id="tempo-para-dormir" name="tempo-para-dormir" required>
+                <label for="hora-levantar">3. Hora usual de levantar:</label>
+                <input type="time" id="hora-levantar" name="hora-levantar" required>
 
-                    <label for="hora-levantar">3. Durante o último mês, quando você geralmente levantou de manhã? Hora usual de levantar:</label>
-                    <input type="time" id="hora-levantar" name="hora-levantar" required>
+                <label for="horas-de-sono">4. Horas de sono por noite:</label>
+                <input type="number" id="horas-de-sono" name="horas-de-sono" min="0" required>
 
-                    <label for="horas-de-sono">4. Durante o último mês, quantas horas de sono você teve por noite? (Este pode ser diferente do número de horas que você ficou na cama):</label>
-                    <input type="number" id="horas-de-sono" name="horas-de-sono" required>
-                </fieldset>
+                <label>5. Frequência de dificuldades para dormir:</label>
+                <label>A) Não conseguiu adormecer em até 30 minutos:</label>
+                <select name="questao5a">
+                    <option value="0">Nenhuma no último mês </option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
 
-                <fieldset>
-                    <legend>Questões de Frequência</legend>
-                    <p>Para cada uma das questões restantes, marque a melhor (uma) resposta. Por favor, responda a todas as questões.</p>
-                    <div class="frequency-question">
-                        <p>5. Durante o último mês, com que frequência você teve dificuldade para dormir porque você...</p>
-                        <label>A) Não conseguiu adormecer em até 30 minutos:</label>
-                        <select name="questao5a" required>
-                            <option value="0">Nenhuma no último mês</option>
-                            <option value="1">Menos de uma vez por semana</option>
-                            <option value="2">Uma ou duas vezes por semana</option>
-                            <option value="3">Três ou mais vezes na semana</option>
-                        </select>
+                <label>B) Acordou no meio da noite:</label>
+                <select name="questao5b">
+                    <option value="0">Nenhuma no último mês </option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
 
-                        <label>B) Acordou no meio da noite ou de manhã cedo:</label>
-                        <select name="questao5b" required>
-                            <option value="0">Nenhuma no último mês</option>
-                            <option value="1">Menos de uma vez por semana</option>
-                            <option value="2">Uma ou duas vezes por semana</option>
-                            <option value="3">Três ou mais vezes na semana</option>
-                        </select>
+                <label>6. Qualidade do sono:</label>
+                <select name="questao6">
+                    <option value="0">Muito boa</option>
+                    <option value="1">Boa</option>
+                    <option value="2">Ruim</option>
+                    <option value="3">Muito Ruim</option>
+                </select>
 
-                        <label>C) Precisou levantar para ir ao banheiro:</label>
-                        <select name="questao5c" required>
-                            <option value="0">Nenhuma no último mês</option>
-                            <option value="1">Menos de uma vez por semana</option>
-                            <option value="2">Uma ou duas vezes por semana</option>
-                            <option value="3">Três ou mais vezes na semana</option>
-                        </select>
+                <label>7. Frequência de uso de remédios para dormir:</label>
+                <select name="questao7">
+                    <option value="0">Nenhuma no último mês </option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
 
-                        <label>D) Não conseguiu respirar confortavelmente:</label>
-                        <select name="questao5d" required>
-                            <option value="0">Nenhuma no último mês</option>
-                            <option value="1">Menos de uma vez por semana</option>
-                            <option value="2">Uma ou duas vezes por semana</option>
-                            <option value="3">Três ou mais vezes na semana</option>
-                        </select>
+                <label>8. Dificuldade de ficar acordado:</label>
+                <select name="questao8">
+                    <option value="0">Nenhuma no último mês </option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
 
-                        <label>E) Tossiu ou roncou forte:</label>
-                        <select name="questao5e" required>
-                            <option value="0">Nenhuma no último mês</option>
-                            <option value="1">Menos de uma vez por semana</option>
-                            <option value="2">Uma ou duas vezes por semana</option>
-                            <option value="3">Três ou mais vezes na semana</option>
-                        </select>
+                <label>9. Problemas para manter o entusiasmo:</label>
+                <select name="questao9">
+                    <option value="0">Nenhuma dificuldade</option>
+                    <option value="1">Um problema leve</option>
+                    <option value="2">Um problema razoável</option>
+                    <option value="3">Um grande problema</option>
+                </select>
 
-                        <label>F) Sentiu muito frio:</label>
-                        <select name="questao5f" required>
-                            <option value="0">Nenhuma no último mês</option>
-                            <option value="1">Menos de uma vez por semana</option>
-                            <option value="2">Uma ou duas vezes por semana</option>
-                            <option value="3">Três ou mais vezes na semana</option>
-                        </select>
+                <label>10. Você tem um(a) parceiro(a) ou colega de quarto?</label>
+                <select name="questao10">
+                    <option value="não">Não</option>
+                    <option value="outro-quarto">Parceiro ou colega, mas em outro quarto</option>
+                    <option value="outra-cama">Parceiro na mesma cama, mas em outra cama</option>
+                    <option value="mesma-cama">Parceiro na mesma cama</option>
+                </select>
 
-                        <label>G) Sentiu muito calor:</label>
-                        <select name="questao5g" required>
-                            <option value="0">Nenhuma no último mês</option>
-                            <option value="1">Menos de uma vez por semana</option>
-                            <option value="2">Uma ou duas vezes por semana</option>
-                            <option value="3">Três ou mais vezes na semana</option>
-                        </select>
-
-                        <label>H) Teve sonhos ruins:</label>
-                        <select name="questao5h" required>
-                            <option value="0">Nenhuma no último mês</option>
-                            <option value="1">Menos de uma vez por semana</option>
-                            <option value="2">Uma ou duas vezes por semana</option>
-                            <option value="3">Três ou mais vezes na semana</option>
-                        </select>
-
-                        <label>I) Teve dor:</label>
-                        <select name="questao5i" required>
-                            <option value="0">Nenhuma no último mês</option>
-                            <option value="1">Menos de uma vez por semana</option>
-                            <option value="2">Uma ou duas vezes por semana</option>
-                            <option value="3">Três ou mais vezes na semana</option>
-                        </select>
-
-                        <label>J) Outra(s) razão(ões), por favor descreva:</label>
-                        <input type="text" name="outra-razao">
-
-                        <label>Com que frequência, durante o último mês, você teve dificuldade para dormir devido a essa razão?</label>
-                        <select name="questao5j" required>
-                            <option value="0">Nenhuma no último mês</option>
-                            <option value="1">Menos de uma vez por semana</option>
-                            <option value="2">Uma ou duas vezes por semana</option>
-                            <option value="3">Três ou mais vezes na semana</option>
-                        </select>
-                    </div>
-
-                    <label for="qualidade-do-sono">6. Durante o último mês, como você classificaria a qualidade do seu sono de uma maneira geral:</label>
-                    <select id="qualidade-do-sono" name="qualidade-do-sono" required>
-                        <option value="0">Muito boa</option>
-                        <option value="1">Boa</option>
-                        <option value="2">Ruim</option>
-                        <option value="3">Muito ruim</option>
-                    </select>
-
-                    <label for="uso-medicamento">7. Durante o último mês, com que frequência você tomou medicamento (prescrito ou “por conta própria”) para lhe ajudar a dormir?</label>
-                    <select id="uso-medicamento" name="uso-medicamento" required>
-                        <option value="0">Nenhuma no último mês</option>
-                        <option value="1">Menos de uma vez por semana</option>
-                        <option value="2">Uma ou duas vezes por semana</option>
-                        <option value="3">Três ou mais vezes na semana</option>
-                    </select>
-
-                    <label for="dificuldade-acordado">8. No último mês, que frequência você teve dificuldade para ficar acordado enquanto dirigia, comia ou participava de uma atividade social (festa, reunião de amigos, trabalho, estudo)</label>
-                    <select id="dificuldade-acordado" name="dificuldade-acordado" required>
-                        <option value="0">Nenhuma no último mês</option>
-                        <option value="1">Menos de uma vez por semana</option>
-                        <option value="2">Uma ou duas vezes por semana</option>
-                        <option value="3">Três ou mais vezes na semana</option>
-                    </select>
-
-                    <label for="manter-animacao">9. Durante o último mês, quão problemático foi para você manter o entusiasmo (ânimo) para fazer as coisas (suas atividades habituais)?</label>
-                    <select id="manter-animacao" name="manter-animacao" required>
-                        <option value="0">Nenhuma dificuldade</option>
-                        <option value="1">Um problema leve</option>
-                        <option value="2">Um problema razoável</option>
-                        <option value="3">Um grande problema</option>
-                    </select>
-
-                    <label for="parceiro">10. Você tem um(a) parceiro(a) ou colega de quarto?</label>
-                    <select id="parceiro" name="parceiro" required>
-                        <option value="0">Não</option>
-                        <option value="1">Parceiro ou colega, mas em outro quarto</option>
-                        <option value="2">Parceiro no mesmo quarto, mas em outra cama</option>
-                        <option value="3">Parceiro na mesma cama</option>
-                    </select>
-                </fieldset>
-
-                <button type="submit">Enviar</button>
+                <input type="submit" value="Enviar" class="submit-button">
             </form>
-        </main>
+        </div>
     </div>
 </body>
 </html>

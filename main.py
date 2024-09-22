@@ -1,11 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, session # type: ignore
+from flask import Flask, render_template, request, redirect, url_for, session, logging
 import json
 import os
+from datetime import datetime
+from functools import wraps
+import plotly.graph_objs as go
+import plotly.offline as pyo
+
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
-# Arquivos JSON
 USERS_FILE = 'users.json'
 PROFILE_FILE = 'profile_data.json'
 
@@ -28,11 +32,21 @@ users = load_json(USERS_FILE, {})
 profile_data = load_json(PROFILE_FILE, {})
 
 def login_required(f):
+    @wraps(f)  
     def decorated_function(*args, **kwargs):
         if 'username' not in session:
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
+
+# Função que gera a explicação com base na pontuação
+def gerar_explicacao_psqi(pontuacao_total):
+    if pontuacao_total > 5:
+        return "Uma pontuação acima de 5 indica que a qualidade do sono é insatisfatória, sugerindo problemas que podem afetar a saúde."
+    elif pontuacao_total <= 5:
+        return "Uma pontuação igual ou abaixo de 5 indica que a qualidade do sono é satisfatória."
+    else:
+        return "Pontuação não disponível."
 
 @app.route('/')
 def home():
@@ -60,7 +74,7 @@ def cadastro():
         confirm_password = request.form['confirm_password']
         if password == confirm_password:
             users[email] = {'name': name, 'password': password}
-            profile_data[email] = {'name': name, 'email': email, 'form_data': {}}
+            profile_data[email] = {'name': name, 'email': email, 'form_data': []}
             save_json(USERS_FILE, users)
             save_json(PROFILE_FILE, profile_data)
             return redirect(url_for('login'))
@@ -73,262 +87,121 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('home'))
 
+@app.route('/perfil')
+@login_required
+def user_profile():
+    username = session.get('username')
+    if username not in profile_data:
+        return "Nenhum dado encontrado para o usuário.", 404
+    
+    user_profile = profile_data[username]
+
+    if user_profile['form_data']:
+        dados_recente = user_profile['form_data'][-1]
+        total_score = dados_recente.get('total_score', 0)
+    else:
+        total_score = 0
+
+    explicacao = gerar_explicacao_psqi(total_score)
+    
+    return render_template('user_profile.html', 
+                           user_profile=user_profile,
+                           psqi_score=total_score, 
+                           explanation=explicacao)
+
 @app.route('/formulario', methods=['GET', 'POST'])
+@login_required
 def formulario():
     username = session.get('username')
-    
-    # Verifica se o usuário está logado
-    if not username:
-        return redirect(url_for('login'))  # Redireciona para a página de login se não estiver logado
 
     if request.method == 'POST':
         try:
-            # Coleta de dados do formulário
+            hora_deitar = request.form.get('hora-deitar')
+            hora_levantar = request.form.get('hora-levantar')
+            horas_de_sono = request.form.get('horas-de-sono', '0')
+            questao6 = int(request.form.get('questao6', '0'))
+            questao7 = int(request.form.get('questao7', '0'))
+            questao8 = int(request.form.get('questao8', '0'))
+            questao9 = int(request.form.get('questao9', '0'))
+
+            if not hora_deitar or not hora_levantar:
+                raise ValueError("Os horários de deitar e levantar são obrigatórios.")
+
+            total_score = calcular_pontuacao(hora_deitar, hora_levantar, horas_de_sono, questao6, questao7, questao8, questao9)
+
             participant_data = {
-                'nome': request.form.get('nome', ''),
-                'id': request.form.get('id', ''),
-                'data_nascimento': request.form.get('data-nascimento', ''),
-                'hora_deitar': request.form.get('hora-deitar', ''),
-                'tempo_para_dormir': request.form.get('tempo-para-dormir', ''),
-                'hora_levantar': request.form.get('hora-levantar', ''),
-                'horas_de_sono': request.form.get('horas-de-sono', ''),
-                'questao5a': int(request.form.get('questao5a', 0)),
-                'questao5b': int(request.form.get('questao5b', 0)),
-                'questao5c': int(request.form.get('questao5c', 0)),
-                'questao5d': int(request.form.get('questao5d', 0)),
-                'questao5e': int(request.form.get('questao5e', 0)),
-                'questao5f': int(request.form.get('questao5f', 0)),
-                'questao5g': int(request.form.get('questao5g', 0)),
-                'questao5h': int(request.form.get('questao5h', 0)),
-                'questao5i': int(request.form.get('questao5i', 0)),
-                'questao5j': int(request.form.get('questao5j', 0)),
-                'questao6': int(request.form.get('qualidade-do-sono', 0)),
-                'questao7': int(request.form.get('uso-medicamento', 0)),
-                'questao8': int(request.form.get('dificuldade-acordado', 0)),
-                'questao9': int(request.form.get('manter-animacao', 0)),
-                'questao10': int(request.form.get('parceiro', 0))
+                'username': username,
+                'hora_deitar': hora_deitar,
+                'hora_levantar': hora_levantar,
+                'horas_de_sono': horas_de_sono,
+                'total_score': total_score,
+                'questao6': questao6,
+                'data': datetime.now().strftime('%Y-%m-%d')
             }
-            
-            # Cálculo da pontuação do PSQI
-            latency_score = calcular_latencia(int(request.form.get('questao2', 0)))
-            disturbances_component_score = calcular_disturbios(participant_data['questao5a'])
-            efficiency_score = calcular_eficiencia(participant_data['horas_de_sono'], 
-                                                     request.form.get('hora_deitar', 0), 
-                                                     request.form.get('hora_levantar', 0))
 
-            total_score = (
-                participant_data['questao6'] +
-                participant_data['questao7'] +
-                participant_data['questao8'] +
-                participant_data['questao9'] +
-                participant_data['questao10'] +
-                latency_score +
-                disturbances_component_score +
-                efficiency_score
-            )
-            
-            # Atualiza os dados do formulário no perfil do usuário
-            if username in profile_data:
-                user_profile = profile_data[username]
-                user_profile['form_data'].append(participant_data)
-                user_profile['psqi_scores'].append(total_score)
-                save_json(PROFILE_FILE, profile_data)
+            profile_data[username]['form_data'].append(participant_data)
+            save_json(PROFILE_FILE, profile_data)
 
-            return redirect(url_for('home'))
+            return redirect(url_for('historico'))
+
         except Exception as e:
-            print(f"Erro ao processar o formulário: {e}")
+            logging.error(f"Erro ao processar o formulário: {e}")
             return "Ocorreu um erro ao processar o formulário.", 500
-
-def calcular_latencia(score):
-    if score <= 15:
-        return 0
-    elif 16 <= score <= 30:
-        return 1
-    elif 31 <= score <= 60:
-        return 2
-    else:
-        return 3
-
-def calcular_disturbios(score):
-    if score <= 0:
-        return 0
-    elif 1 <= score <= 9:
-        return 1
-    elif 10 <= score <= 18:
-        return 2
-    else:
-        return 3
-
-def calcular_eficiencia(horas_de_sono, hora_deitar, hora_levantar):
-    sleep_hours = float(horas_de_sono)
-    total_hours_in_bed = (
-        int(hora_levantar) - int(hora_deitar)
-    )
-    sleep_efficiency = (sleep_hours / total_hours_in_bed) * 100 if total_hours_in_bed > 0 else 0
-    
-    if sleep_efficiency > 85:
-        return 0
-    elif 75 <= sleep_efficiency <= 84:
-        return 1
-    elif 65 <= sleep_efficiency <= 74:
-        return 2
-    else:
-        return 3
 
     return render_template('formulario.html')
 
+def calcular_pontuacao(hora_deitar, hora_levantar, horas_de_sono, questao6, questao7, questao8, questao9):
+    score1 = questao6
+    score2 = int(horas_de_sono)
+    return score1 + score2
 
-@app.route('/perfil', methods=['GET', 'POST'])
+@app.route('/historico', methods=['GET'])
 @login_required
-def perfil():
-    username = session.get('username')
-    user_profile = profile_data.get(username, {'name': '', 'email': '', 'form_data': {}, 'psqi_score': 0})
-
-    if request.method == 'POST':
-        # Certifique-se de que 'name' e outras variáveis estão corretamente definidas
-        name = request.form.get('name', '')  # Ou qualquer outro método para obter 'name'
-        profile_data[username] = {
-            'name': name,
-            'email': request.form.get('email', ''),
-            'form_data': user_profile.get('form_data', {}),
-            'psqi_score': user_profile.get('psqi_score', 0)
-        }
-        save_json(PROFILE_FILE, profile_data)
-        return redirect(url_for('perfil'))
-
-    # Explicação do PSQI
-    score = user_profile.get('psqi_score', 0)
-    explanation = ""
-    if score > 5:
-        explanation = "Sua pontuação no PSQI indica possíveis problemas com a qualidade do sono. Considere consultar um especialista."
-    else:
-        explanation = "Sua pontuação no PSQI sugere uma boa qualidade do sono."
-
-    return render_template('user_profile.html', user_profile=user_profile, explanation=explanation)
-
-
-def calcular_psqi(form_data):
-    # Pontuação por componente
-    pontuacoes = {
-        'componente1': 0,
-        'componente2': 0,
-        'componente3': 0,
-        'componente4': 0,
-        'componente5': 0,
-        'componente6': 0,
-        'componente7': 0
-    }
-    
-    # Componente 1: Qualidade subjetiva do sono
-    pontuacoes['componente1'] = int(form_data.get('questao6', 0))
-    
-    # Componente 2: Latência do sono
-    latencia = int(form_data.get('questao2', 0))
-    if latencia <= 15:
-        pontuacoes['componente2'] = 0
-    elif latencia <= 30:
-        pontuacoes['componente2'] = 1
-    elif latencia <= 60:
-        pontuacoes['componente2'] = 2
-    else:
-        pontuacoes['componente2'] = 3
-
-    # Pontuação adicional para a questão 5a
-    questao5a = int(form_data.get('questao5a', 0))
-    if questao5a == 0:
-        pontuacoes['componente2'] += 0
-    elif questao5a <= 1:
-        pontuacoes['componente2'] += 1
-    elif questao5a <= 2:
-        pontuacoes['componente2'] += 2
-    elif questao5a <= 3:
-        pontuacoes['componente2'] += 3
-
-    # Ajustar a pontuação do componente 2
-    if pontuacoes['componente2'] > 3:
-        pontuacoes['componente2'] = 3
-
-    # Componente 3: Duração do sono
-    duracao_sono = int(form_data.get('questao4', 0))
-    if duracao_sono > 7:
-        pontuacoes['componente3'] = 0
-    elif duracao_sono >= 6:
-        pontuacoes['componente3'] = 1
-    elif duracao_sono >= 5:
-        pontuacoes['componente3'] = 2
-    else:
-        pontuacoes['componente3'] = 3
-
-    # Componente 4: Eficiência habitual do sono
-    horas_dormidas = float(form_data.get('horas_dormidas', 0))
-    horario_deitar = float(form_data.get('hora_deitar', 0))
-    horario_levantar = float(form_data.get('hora_levantar', 0))
-    horas_no_leito = horario_levantar - horario_deitar
-    eficiencia_sono = (horas_dormidas / horas_no_leito) * 100
-    if eficiencia_sono > 85:
-        pontuacoes['componente4'] = 0
-    elif eficiencia_sono >= 75:
-        pontuacoes['componente4'] = 1
-    elif eficiencia_sono >= 65:
-        pontuacoes['componente4'] = 2
-    else:
-        pontuacoes['componente4'] = 3
-
-    # Componente 5: Distúrbios do sono
-    disturios = [
-        int(form_data.get('questao5b', 0)),
-        int(form_data.get('questao5c', 0)),
-        int(form_data.get('questao5d', 0)),
-        int(form_data.get('questao5e', 0)),
-        int(form_data.get('questao5f', 0)),
-        int(form_data.get('questao5g', 0)),
-        int(form_data.get('questao5h', 0)),
-        int(form_data.get('questao5i', 0)),
-        int(form_data.get('questao5j', 0))
-    ]
-    total_disturios = sum(disturios)
-    if total_disturios == 0:
-        pontuacoes['componente5'] = 0
-    elif total_disturios <= 9:
-        pontuacoes['componente5'] = 1
-    elif total_disturios <= 18:
-        pontuacoes['componente5'] = 2
-    else:
-        pontuacoes['componente5'] = 3
-
-    # Componente 6: Uso de remédio para dormir
-    pontuacoes['componente6'] = int(form_data.get('questao7', 0))
-
-    # Componente 7: Disfunção diurna
-    disfuncao_diurna = int(form_data.get('questao8', 0)) + int(form_data.get('questao9', 0))
-    if disfuncao_diurna == 0:
-        pontuacoes['componente7'] = 0
-    elif disfuncao_diurna <= 2:
-        pontuacoes['componente7'] = 1
-    elif disfuncao_diurna <= 4:
-        pontuacoes['componente7'] = 2
-    else:
-        pontuacoes['componente7'] = 3
-
-    # Pontuação global
-    pontuacao_total = sum(pontuacoes.values())
-    
-    return pontuacao_total
-
-@app.route('/historico')
 def historico():
-    username = session.get('username', 'user1')  # Valor padrão para testes
-    user_profile = profile_data.get(username, {'form_data': {}, 'psqi_scores': []})
+    username = session.get('username')
+    if username not in profile_data:
+        return "Nenhum dado encontrado para o usuário.", 404
 
-    # Calcular a pontuação do PSQI
-    psqi_score = calcular_psqi(user_profile['form_data'])
-    user_profile['psqi_scores'].append(psqi_score)
+    user_profile = profile_data[username]
+    scores = []
 
-    return render_template('historico.html', form_data=user_profile['form_data'], psqi_scores=user_profile['psqi_scores'], psqi_score=psqi_score)
+    for entry in user_profile['form_data']:
+        data = entry.get('data', 'Data indisponível')
+        try:
+            data_formatada = datetime.strptime(data, '%Y-%m-%d').strftime('%d/%m/%Y')
+        except ValueError:
+            data_formatada = data
 
+        total_score = entry.get('total_score', 0)
+        questao6 = entry.get('questao6', None)
 
+        scores.append({
+            'data': data_formatada,
+            'total_score': total_score,
+            'questao6': questao6
+        })
 
-if __name__ == '__main__':
+    gerar_grafico_historico(scores)
+
+    return render_template('historico.html', scores=scores, username=username)
+
+def gerar_grafico_historico(scores):
+    datas = [entry['data'] for entry in scores]
+    pontuacoes = [entry['total_score'] for entry in scores]
+
+    trace = go.Scatter(
+        x=datas,
+        y=pontuacoes,
+        mode='lines+markers',
+        name='Pontuação do Sono'
+    )
+    layout = go.Layout(
+        title='Histórico de Pontuação do Sono',
+        xaxis=dict(title='Data'),
+        yaxis=dict(title='Pontuação Total')
+    )
+    fig = go.Figure(data=[trace], layout=layout)
+    pyo.plot(fig, filename='static/historico_sono.html', auto_open=False)
+
+if __name__ == "__main__":
     app.run(debug=True)
-
-

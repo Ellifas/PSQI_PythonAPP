@@ -1,38 +1,61 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Histórico do PSQI</title>
-    <link rel="stylesheet" href="../static/css/historico.css"> <!-- Conectando o CSS externo -->
+    <title>Histórico do Sono</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/historico.css') }}">
 </head>
 <body>
-    <h1>Histórico do PSQI</h1>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/informacoes">Sobre o PSQI</a></li>
+                <li><a href="/contato">Contato</a></li>
+                <li><a href="/perfil">Perfil</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="/logout" class="button logout">Logout</a>
+            </div>
+        </nav>
 
-    <h2>Dados do PSQI</h2>
-    <p><strong>Nome:</strong> {{ form_data['nome'] }}</p>
-    <p><strong>ID:</strong> {{ form_data['id'] }}</p>
-    <p><strong>Data de Nascimento:</strong> {{ form_data['data_nascimento'] }}</p>
-    <p><strong>Hora de Deitar:</strong> {{ form_data['hora_deitar'] }}</p>
-    <p><strong>Tempo para Dormir:</strong> {{ form_data['tempo_para_dormir'] }}</p>
-    <p><strong>Hora de Levantar:</strong> {{ form_data['hora_levantar'] }}</p>
-    <p><strong>Horas de Sono:</strong> {{ form_data['horas_de_sono'] }}</p>
+        <div class="main-content">
+            <header>
+                <h1>Histórico de Sono de {{ username }}</h1>
+            </header>
 
-    <!-- Exibindo as respostas das questões PSQI com descrições -->
-    <h3>Questões PSQI:</h3>
-    <p><strong>Questão 5a:</strong> {{ form_data['questao5a'] }}</p>
-    <p><strong>Questão 5b:</strong> {{ form_data['questao5b'] }}</p>
-    <!-- Continue com outras questões -->
+            <h2>Gráfico Histórico</h2>
+            <iframe src="{{ url_for('static', filename='historico_sono.html') }}" width="100%" height="600px"></iframe>
 
-    <h2>Pontuações</h2>
-    <p><strong>Pontuação Total do PSQI:</strong> {{ psqi_score }}</p>
-    <p><strong>Histórico de Pontuações:</strong></p>
-    <ul>
-        {% for score in psqi_scores %}
-            <li>{{ score }}</li>
-        {% endfor %}
-    </ul>
-
-    <a href="{{ url_for('home') }}">Voltar para a página inicial</a>
+            <table>
+                <tr>
+                    <th>Data</th>
+                    <th>Pontuação Total</th>
+                    <th>Qualidade do Sono</th>
+                    <th>Detalhes</th>
+                </tr>
+                {% for score in scores %}
+                <tr>
+                    <td>{{ score['data'] }}</td>
+                    <td>{{ score['total_score'] }}</td>
+                    <td>
+                        {% if score['questao6'] == 0 %}
+                            Muito boa
+                        {% elif score['questao6'] == 1 %}
+                            Boa
+                        {% elif score['questao6'] == 2 %}
+                            Ruim
+                        {% elif score['questao6'] == 3 %}
+                            Muito Ruim
+                        {% endif %}
+                    </td>
+                    <td><a href="#">Ver Detalhes</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 </body>
 </html>
