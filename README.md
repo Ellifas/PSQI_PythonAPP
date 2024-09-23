@@ -23,7 +23,7 @@ cd nome_do_repositorio
 É uma boa prática usar um ambiente virtual para isolar suas dependências. Para criar um ambiente virtual, execute os seguintes comandos:
 
 # No Windows
-python -m venv venv
+python -3 -m venv venv
 
 # No macOS/Linux
 python3 -m venv venv
@@ -49,8 +49,7 @@ pip install plotly
 Após instalar as dependências, você pode executar a aplicação com o seguinte comando:
 
 # No Windows
-set FLASK_APP=app.py
-set FLASK_ENV=development
+$env:FLASK_APP = "main"
 flask run
 
 # No macOS/Linux
